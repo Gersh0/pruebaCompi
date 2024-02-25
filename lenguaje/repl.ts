@@ -1,27 +1,28 @@
-import { TokenType } from './token'; // Assuming the path to your token module
-import { Lexer } from './lexer'; // Assuming the path to your lexer module
+import { TokenType } from './token';
+import { Lexer } from './lexer';
 import * as readline from 'node:readline';
 
-export function startRepl(): void {
+export async function startRepl(): Promise<void> {
     console.log("Bienvenido a GershoScript");
-    const readline = require("readline");
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
 
-    rl.question(">>> ", (source: string) => {
-        while (source !== "adio") {
-            const lexer = new Lexer(source);
-            let token = lexer.nextToken();
-            while (token.token_type !== TokenType.EOF) {
-                console.log(token);
-                token = lexer.nextToken();
-            }
-            rl.question(">>> ", (newSource: string) => {
-                source = newSource;
+    let source = '';
+    while (source !== "adio") {
+        source = await new Promise<string>((resolve) => {
+            rl.question(">>> ", (input: string) => {
+                resolve(input);
             });
+        });
+
+        const lexer = new Lexer(source);
+        let token = lexer.nextToken();
+        while (token.token_type !== TokenType.EOF) {
+            console.log(token);
+            token = lexer.nextToken();
         }
-        rl.close();
-    });
+    }
+    rl.close();
 }
