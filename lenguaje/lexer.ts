@@ -1,72 +1,138 @@
-class Lexer{
+import { Token, TokenType } from './token';
 
-    private source:string;
-    private current_pos: number;
-    private current_char: string;
-    private read_current_pos: number;
+export class Lexer {
+    private _source: string;
+    private _current_pos: number;
+    private _current_char: string;
+    private _read_current_pos: number;
 
-    constructor(source:string) {
-        this.source=source;
-        this.current_pos = 0;
-        this.current_char = "";
-        this.read_current_pos = 0;
-        this.read_character();
+    constructor(source: string) {
+        this._source = source;
+        this._current_pos =  0;
+        this._current_char = "";
+        this._read_current_pos =  0;
+        this._read_character();
     }
 
-    private read_character(): void{
-        if (this.read_current_pos >= this.source.length){
-            this.current_char = "";
-        }else{
-            this.current_char = this.source[this.read_current_pos];
+    private _read_character(): void {
+        if (this._read_current_pos >= this._source.length) {
+            this._current_char = "";
+        } else {
+            this._current_char = this._source[this._read_current_pos];
         }
-        this.current_pos = this.read_current_pos;
-        this.read_current_pos++;
+        this._current_pos = this._read_current_pos;
+        this._read_current_pos +=  1;
     }
 
-    private peek_character():any{
-        if (this.read_current_pos>=this.source.length){
-            return""
-        }else{
-            return this.source[this.read_current_pos]
+    private _peek_character(): string {
+        if (this._read_current_pos >= this._source.length) {
+            return "";
+        } else {
+            return this._source[this._read_current_pos];
         }
     }
 
-    public is_letter(character:string):any{
+    private is_letter(character: string): boolean {
         return /^[a-záéíóúA-ZÁÉÍÓÚñÑ_]$/.test(character);
     }
 
-    public is_number(character:string):any{
+    private is_number(character: string): boolean {
         return /^\d$/.test(character);
     }
 
-    private read_number():any{
-        let initial_position: number = this.current_pos;
-        while (this.is_number(this.current_char)){
-            this.read_character();
+    private _read_number(): string {
+        let initial_position = this._current_pos;
+        while (this.is_number(this._current_char)) {
+            this._read_character();
         }
-        return this.source.substring(initial_position,this.current_pos);
+        return this._source.substring(initial_position, this._current_pos);
     }
 
-    private read_identifier():any{
-        let initial_position: number = this.current_pos;
-        let is_first_letter: boolean = true;
-        while (this.is_letter(this.current_char) || !(is_first_letter&&this.is_number(this.current_char))){
-            this.read_character();
+    private _read_identifier(): string {
+        let initial_position = this._current_pos;
+        let is_first_letter = true;
+        while (this.is_letter(this._current_char) || (!is_first_letter && this.is_number(this._current_char))) {
+            this._read_character();
             is_first_letter = false;
         }
-        return this.source.substring(initial_position,this.current_pos);
+        return this._source.substring(initial_position, this._current_pos);
     }
 
-    private skip_whitespace():void{
-        while (/^\s*$/.test(this.current_char)){
-            this.read_character();
+    private _skip_whitespace(): void {
+        while (this._current_char.match(/\s/)) {
+            this._read_character();
         }
     }
 
-    public next_token():any{
-        this.skip_whitespace()
-        if (/^=$/.test(this.current_char)){
-
+    public nextToken(): Token {
+        this._skip_whitespace();
+        let token:Token;
+        if (/^=$/.test(this._current_char)) {
+            if (this._peek_character() === "=") {
+                this._read_character();
+                token = new Token(TokenType.IDENT, "==");
+            } else {
+                token = new Token(TokenType.EQ, this._current_char);
+            }
+        } else if (/^!$/.test(this._current_char)) {
+            if (this._peek_character() === "=") {
+                this._read_character();
+                token = new Token(TokenType.NOE, "!=");
+            } else {
+                token = new Token(TokenType.NOT, this._current_char);
+            }
+        } else if (/^<$/.test(this._current_char)) {
+            if (this._peek_character() === "=") {
+                this._read_character();
+                token = new Token(TokenType.LTE, "<=");
+            } else {
+                token = new Token(TokenType.LESS_THAN, this._current_char);
+            }
+        } else if (/^>$/.test(this._current_char)) {
+            if (this._peek_character() === "=") {
+                this._read_character();
+                token = new Token(TokenType.GTE, ">=");
+            } else {
+                token = new Token(TokenType.GREATER_THAN, this._current_char);
+            }
+        } else if (/^$/.test(this._current_char)) {
+            console.log(this._current_char);
+            token = new Token(TokenType.EOF, this._current_char);
+        } else if (/^\+$/.test(this._current_char)) {
+            token = new Token(TokenType.PLUS, this._current_char);
+        } else if (/^,$/.test(this._current_char)) {
+            token = new Token(TokenType.COMMA, this._current_char);
+        } else if (/^;$/.test(this._current_char)) {
+            token = new Token(TokenType.SEMICOLON, this._current_char);
+        } else if (/^\($/.test(this._current_char)) {
+            token = new Token(TokenType.PAREN_OPEN, this._current_char);
+        } else if (/^\)$/.test(this._current_char)) {
+            token = new Token(TokenType.PAREN_CLOSE, this._current_char);
+        } else if (/^\[$/.test(this._current_char)) {
+            token = new Token(TokenType.BRACKET_OPEN, this._current_char);
+        } else if (/^]$/.test(this._current_char)) {
+            token = new Token(TokenType.BRACKET_CLOSE, this._current_char);
+        } else if (/^\{$/.test(this._current_char)) {
+            token = new Token(TokenType.CURLY_OPEN, this._current_char);
+        } else if (/^}$/.test(this._current_char)) {
+            token = new Token(TokenType.CURLY_CLOSE, this._current_char);
+        } else if (/^-$/.test(this._current_char)) {
+            token = new Token(TokenType.MINUS, this._current_char);
+        } else if (/^\^$/.test(this._current_char)) {
+            token = new Token(TokenType.CARET, this._current_char);
+        } else if (/^\/$/.test(this._current_char)) {
+            token = new Token(TokenType.SLASH, this._current_char);
+        } else if (this.is_letter(this._current_char)) {
+            const literal = this._read_identifier();
+            const tokenType = Token.lookup_token_type(literal);
+            token = new Token(tokenType, literal);
+        } else if (this.is_number(this._current_char)) {
+            const literal = this._read_number();
+            token = new Token(TokenType.INT, literal);
+        } else {
+            token = new Token(TokenType.ILLEGAL, this._current_char);
         }
+        this._read_character()
+        return token;
     }
 }
