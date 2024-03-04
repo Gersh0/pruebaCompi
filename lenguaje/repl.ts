@@ -1,4 +1,4 @@
-import { TokenType } from './token';
+import {TokenType} from './token';
 import { Lexer } from './lexer';
 import * as readline from 'node:readline';
 
@@ -20,7 +20,7 @@ export async function startRepl(): Promise<void> {
         const lexer = new Lexer(source);
         let token = lexer.nextToken();
         while (token.token_type !== TokenType.EOF) {
-            console.log(token);
+            console.log(token );
             token = lexer.nextToken();
         }
     }
