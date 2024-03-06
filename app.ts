@@ -1,4 +1,4 @@
-import { startRepl } from './lenguaje/repl';
+import {startRepl} from './lenguaje/repl';
 
 function main(): void {
     startRepl();

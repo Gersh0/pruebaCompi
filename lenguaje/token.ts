@@ -82,13 +82,6 @@ export class Token {
             'function': TokenType.FUNCTION,
             'let': TokenType.LET,
             //tokens vrtx
-            '||': TokenType.OR,
-            '&&': TokenType.AND,
-            '<<': TokenType.SHIFT_LEFT,
-            '>>': TokenType.SHIFT_RIGHT,
-            '++': TokenType.INCREMENT,
-            '--': TokenType.DECREMENT,
-            '_': TokenType.UNDERSCORE,
             'for': TokenType.FOR,
             'while': TokenType.WHILE,
             'switch': TokenType.SWITCH,

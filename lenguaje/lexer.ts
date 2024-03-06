@@ -152,9 +152,7 @@ export class Lexer {
             token = new Token(TokenType.MODULE, this._current_char);
         } else if (/^\*$/.test(this._current_char)) {
             token = new Token(TokenType.ASTERISK, this._current_char);
-        } else if (/^&&$/.test(this._current_char)) {
-            token = new Token(TokenType.AND, this._current_char);
-        } else if (/^\|\|$/.test(this._current_char)) {
+        }else if (/^\|\|$/.test(this._current_char)) {
             token = new Token(TokenType.OR, this._current_char);
         } else if (/^&$/.test(this._current_char)) {
             if (this._peek_character() === "&") {
@@ -172,14 +170,8 @@ export class Lexer {
             }
         } else if (/^\^$/.test(this._current_char)) {
             token = new Token(TokenType.BITWISE_XOR, this._current_char);
-        } else if (/^<<$/.test(this._current_char)) {
-            token = new Token(TokenType.SHIFT_LEFT, this._current_char);
-        } else if (/^>>$/.test(this._current_char)) {
-            token = new Token(TokenType.SHIFT_RIGHT, this._current_char);
-        } else if (/^\+\+$/.test(this._current_char)) {
+        }else if (/^\+\+$/.test(this._current_char)) {
             token = new Token(TokenType.INCREMENT, this._current_char);
-        } else if (/^--$/.test(this._current_char)) {
-            token = new Token(TokenType.DECREMENT, this._current_char);
         } else if (/^\?$/.test(this._current_char)) {
             token = new Token(TokenType.QUESTION_MARK, this._current_char);
         } else if (/^:$/.test(this._current_char)) {
@@ -196,24 +188,8 @@ export class Lexer {
             token = new Token(TokenType.DOUBLE_QUOTE, this._current_char);
         } else if (/^'$/.test(this._current_char)) {
             token = new Token(TokenType.SINGLE_QUOTE, this._current_char);
-        } else if (/^\\$/.test(this._current_char)) {
+        } else if (/^\$/.test(this._current_char)) {
             token = new Token(TokenType.BACKSLASH, this._current_char);
-        } else if (/^for$/.test(this._current_char)) {
-            token = new Token(TokenType.FOR, this._current_char);
-        } else if (/^while$/.test(this._current_char)) {
-            token = new Token(TokenType.WHILE, this._current_char);
-        } else if (/^switch$/.test(this._current_char)) {
-            token = new Token(TokenType.SWITCH, this._current_char);
-        } else if (/^case$/.test(this._current_char)) {
-            token = new Token(TokenType.CASE, this._current_char);
-        } else if (/^default$/.test(this._current_char)) {
-            token = new Token(TokenType.DEFAULT, this._current_char);
-        } else if (/^break$/.test(this._current_char)) {
-            token = new Token(TokenType.BREAK, this._current_char);
-        } else if (/^continue$/.test(this._current_char)) {
-            token = new Token(TokenType.CONTINUE, this._current_char);
-        } else if (/^null$/.test(this._current_char)) {
-            token = new Token(TokenType.NULL, this._current_char);
         }
         // end tokens VRTX
 
