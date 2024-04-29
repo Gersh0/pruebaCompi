@@ -1,4 +1,4 @@
-import { Token, TokenType } from './token';
+import { Token } from './token';
 
 // Abstract class for ASTNode
 abstract class ASTNode {
@@ -15,7 +15,7 @@ abstract class Statement extends ASTNode {}
 abstract class Expression extends ASTNode {}
 
 // Class for Program
-class Program extends ASTNode {
+class ASTProgram extends ASTNode {
     statements: Statement[];
     constructor(statements: Statement[]) {
         super();
@@ -34,7 +34,7 @@ class Program extends ASTNode {
 }
 
 // Class for Identifier
-export class Identifier extends Expression {
+class ASTIdentifier extends Expression {
     token: Token;
     value: string;
     constructor(token: Token, value: string) {
@@ -51,11 +51,11 @@ export class Identifier extends Expression {
 }
 
 // Class for LetStatement
-class LetStatement extends Statement {
+class ASTLetStatement extends Statement {
     token: Token;
-    name: Identifier;
+    name: ASTIdentifier;
     value: Expression;
-    constructor(token: Token, name: Identifier, value: Expression) {
+    constructor(token: Token, name: ASTIdentifier, value: Expression) {
         super();
         this.token = token;
         this.name = name;
@@ -70,7 +70,7 @@ class LetStatement extends Statement {
 }
 
 // Class for ReturnStatement
-class ReturnStatement extends Statement {
+class ASTReturnStatement extends Statement {
     token: Token;
     returnValue: Expression;
     constructor(token: Token, returnValue: Expression) {
@@ -87,7 +87,7 @@ class ReturnStatement extends Statement {
 }
 
 // Class for ExpressionStatement
-class ExpressionStatement extends Statement {
+class ASTExpressionStatement extends Statement {
     token: Token;
     expression: Expression;
     constructor(token: Token, expression: Expression) {
@@ -104,7 +104,7 @@ class ExpressionStatement extends Statement {
 }
 
 // Class for Integer
-class Integer extends Expression {
+class ASTInteger extends Expression {
     token: Token;
     value: number;
     constructor(token: Token, value: number) {
@@ -121,7 +121,7 @@ class Integer extends Expression {
 }
 
 // Class for Prefix
-class Prefix extends Expression {
+class ASTPrefix extends Expression {
     token: Token;
     operator: string;
     right: Expression;
@@ -140,7 +140,7 @@ class Prefix extends Expression {
 }
 
 // Class for Infix
-class Infix extends Expression {
+class ASTInfix extends Expression {
     token: Token;
     left: Expression;
     operator: string;
@@ -161,7 +161,7 @@ class Infix extends Expression {
 }
 
 // Class for Boolean
-class Boolean extends Expression {
+class ASTBoolean extends Expression {
     token: Token;
     value: boolean;
     constructor(token: Token, value: boolean) {
@@ -178,7 +178,7 @@ class Boolean extends Expression {
 }
 
 // Class for Block
-export class Block extends Statement {
+class ASTBlock extends Statement {
     token: Token;
     statements: Statement[];
     constructor(token: Token, statements: Statement[]) {
@@ -195,12 +195,12 @@ export class Block extends Statement {
 }
 
 // Class for If
-class If extends Expression {
+class ASTIf extends Expression {
     token: Token;
     condition: Expression;
-    consequence: Block;
-    alternative: Block | null;
-    constructor(token: Token, condition: Expression, consequence: Block, alternative: Block | null) {
+    consequence: ASTBlock;
+    alternative: ASTBlock | null;
+    constructor(token: Token, condition: Expression, consequence: ASTBlock, alternative: ASTBlock | null) {
         super();
         this.token = token;
         this.condition = condition;
@@ -220,11 +220,11 @@ class If extends Expression {
 }
 
 // Class for Function
-class Function extends Expression {
+class ASTFunction extends Expression {
     token: Token;
-    parameters: Identifier[];
-    body: Block;
-    constructor(token: Token, parameters: Identifier[], body: Block) {
+    parameters: ASTIdentifier[];
+    body: ASTBlock;
+    constructor(token: Token, parameters: ASTIdentifier[], body: ASTBlock) {
         super();
         this.token = token;
         this.parameters = parameters;
@@ -240,7 +240,7 @@ class Function extends Expression {
 }
 
 // Class for Call
-class Call extends Expression {
+class ASTCall extends Expression {
     token: Token;
     function: Expression;
     arguments: Expression[];
@@ -260,7 +260,7 @@ class Call extends Expression {
 }
 
 // Class for StringLiteral
-class StringLiteral extends Expression {
+class ASTStringLiteral extends Expression {
     token: Token;
     value: string;
     constructor(token: Token, value: string) {
@@ -275,3 +275,23 @@ class StringLiteral extends Expression {
         return this.token.literal;
     }
 }
+
+export {
+    ASTBlock,
+    ASTBoolean,
+    ASTCall,
+    ASTExpressionStatement,
+    ASTFunction,
+    ASTIdentifier,
+    ASTIf,
+    ASTInteger,
+    ASTInfix,
+    ASTLetStatement,
+    ASTProgram,
+    ASTReturnStatement,
+    ASTStringLiteral,
+    ASTPrefix,
+    Statement,
+    Expression,
+    ASTNode
+};

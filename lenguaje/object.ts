@@ -1,14 +1,14 @@
-import { Block, Identifier } from './ast';
+import { ASTBlock, ASTIdentifier } from './ast';
 
 // Enum for ObjectType
-enum ObjectType {
-    BOOLEAN_,
-    INTEGER_,
-    NULL_,
-    RETURN_,
-    ERROR_,
-    FUNCTION_,
-    STRING_
+export enum ObjectType {
+    BOOLEAN,
+    INTEGER,
+    NULL,
+    RETURN,
+    ERROR,
+    FUNCTION,
+    STRING
 }
 
 // Abstract class Object
@@ -22,7 +22,7 @@ abstract class Object_ {
 }
 
 // Integer class
-class Integer_ extends Object_ {
+class Integer extends Object_ {
     value: number;
     constructor(value: number) {
         super();
@@ -30,7 +30,7 @@ class Integer_ extends Object_ {
     }
     // Returns the type of the object
     type(): ObjectType {
-        return ObjectType.INTEGER_;
+        return ObjectType.INTEGER;
     }
     // Returns a string representation of the object
     inspect(): string {
@@ -39,7 +39,7 @@ class Integer_ extends Object_ {
 }
 
 // Boolean class
-class Boolean_ extends Object_ {
+class Boolean extends Object_ {
     value: boolean;
     constructor(value: boolean) {
         super();
@@ -47,7 +47,7 @@ class Boolean_ extends Object_ {
     }
     // Returns the type of the object
     type(): ObjectType {
-        return ObjectType.BOOLEAN_;
+        return ObjectType.BOOLEAN;
     }
     // Returns a string representation of the object
     inspect(): string {
@@ -56,10 +56,10 @@ class Boolean_ extends Object_ {
 }
 
 // Null class
-class Null_ extends Object_ {
+class Null extends Object_ {
     // Returns the type of the object
     type(): ObjectType {
-        return ObjectType.NULL_;
+        return ObjectType.NULL;
     }
     // Returns a string representation of the object
     inspect(): string {
@@ -68,7 +68,7 @@ class Null_ extends Object_ {
 }
 
 // Return class
-class Return_ extends Object_ {
+class Return extends Object_ {
     value: Object_;
     constructor(value: Object_) {
         super();
@@ -76,7 +76,7 @@ class Return_ extends Object_ {
     }
     // Returns the type of the object
     type(): ObjectType {
-        return ObjectType.RETURN_;
+        return ObjectType.RETURN;
     }
     // Returns a string representation of the object
     inspect(): string {
@@ -85,7 +85,7 @@ class Return_ extends Object_ {
 }
 
 // Error class
-class Error_ extends Object_ {
+class Error extends Object_ {
     message: string;
     constructor(message: string) {
         super();
@@ -93,7 +93,7 @@ class Error_ extends Object_ {
     }
     // Returns the type of the object
     type(): ObjectType {
-        return ObjectType.ERROR_;
+        return ObjectType.ERROR;
     }
     // Returns a string representation of the object
     inspect(): string {
@@ -102,15 +102,15 @@ class Error_ extends Object_ {
 }
 
 // Environment class
-class Environment_ {
-    store: Map<string, Object>;
-    outer: Environment_ | null;
-    constructor(outer?: Environment_) {
-        this.store = new Map<string, Object>();
+class Environment {
+    store: Map<string, Object_>;
+    outer: Environment | null;
+    constructor(outer?: Environment) {
+        this.store = new Map<string, Object_>();
         this.outer = outer || null;
     }
     // Get method for Environment class
-    get(name: string): Object | undefined {
+    get(name: string): Object_ | undefined {
         let obj = this.store.get(name);
         if (obj === undefined && this.outer !== null) {
             obj = this.outer.get(name);
@@ -118,18 +118,18 @@ class Environment_ {
         return obj;
     }
     // Set method for Environment class
-    set(name: string, val: Object): Object {
+    set(name: string, val: Object_): Object_ {
         this.store.set(name, val);
         return val;
     }
 }
 
 // Function class
-class Function_ extends Object_ {
-    parameters: Identifier[];
-    body: Block;
-    env: Environment_;
-    constructor(parameters: Identifier[], body: Block, env: Environment_) {
+class Function extends Object_ {
+    parameters: ASTIdentifier[];
+    body: ASTBlock;
+    env: Environment;
+    constructor(parameters: ASTIdentifier[], body: ASTBlock, env: Environment) {
         super();
         this.parameters = parameters;
         this.body = body;
@@ -137,7 +137,7 @@ class Function_ extends Object_ {
     }
     // Returns the type of the object
     type(): ObjectType {
-        return ObjectType.FUNCTION_;
+        return ObjectType.FUNCTION;
     }
     // Returns a string representation of the object
     inspect(): string {
@@ -146,7 +146,7 @@ class Function_ extends Object_ {
 }
 
 // String class
-class String_ extends Object {
+class String extends Object_ {
     value: string;
     constructor(value: string) {
         super();
@@ -154,10 +154,12 @@ class String_ extends Object {
     }
     // Returns the type of the object
     type(): ObjectType {
-        return ObjectType.STRING_;
+        return ObjectType.STRING;
     }
     // Returns a string representation of the object
     inspect(): string {
         return this.value;
     }
 }
+
+export{Object_, Integer, Boolean, Null, Return, Error, Environment, Function, String};
