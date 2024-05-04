@@ -2,6 +2,10 @@ import { Token, TokenType } from './token'; // Adjust the path according to your
 import { Lexer } from './lexer'; // Adjust the path according to your project structure
 import * as readline from 'readline'; // For reading input in Node.js
 
+
+
+
+
 export function startRepl(): void {
     console.log("Bienvenido a GershoScript");
 
