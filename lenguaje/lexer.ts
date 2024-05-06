@@ -48,6 +48,15 @@ export class Lexer {
         return this._source.substring(initial_position, this._current_pos);
     }
 
+    private _read_string(): string {
+        let initial_position = this._current_pos;
+        this._read_character();
+        while (this._current_char !== '"') {
+            this._read_character();
+        }
+        return this._source.substring(initial_position + 1, this._current_pos);
+    }
+
     private _read_identifier(): string {
         let initial_position = this._current_pos;
         let is_first_letter = true;
@@ -70,9 +79,9 @@ export class Lexer {
         if (/^=$/.test(this._current_char)) {
             if (this._peek_character() === "=") {
                 this._read_character();
-                token = new Token(TokenType.IDENT, "==");
+                token = new Token(TokenType.EQ, "==");
             } else {
-                token = new Token(TokenType.EQ, this._current_char);
+                token = new Token(TokenType.ASSIGN, this._current_char);
             }
         } else if (/^!$/.test(this._current_char)) {
             if (this._peek_character() === "=") {
@@ -122,6 +131,9 @@ export class Lexer {
             token = new Token(TokenType.CARET, this._current_char);
         } else if (/^\/$/.test(this._current_char)) {
             token = new Token(TokenType.SLASH, this._current_char);
+        } else if (/^"$/.test(this._current_char)) {
+            const literal = this._read_string();
+            token = new Token(TokenType.STRING, literal);
         } else if (this.is_letter(this._current_char)) {
             const literal = this._read_identifier();
             const tokenType = Token.lookup_token_type(literal);

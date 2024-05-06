@@ -1,34 +1,37 @@
 export enum TokenType {
-    EQ,
-    COMMA,
-    EOF,
-    ILLEGAL,
-    PLUS,
-    SEMICOLON,
-    PAREN_OPEN,
-    PAREN_CLOSE,
-    BRACKET_OPEN,
-    BRACKET_CLOSE,  // ]
-    CURLY_OPEN,  // {
-    CURLY_CLOSE,  // }
-    MINUS,  // -
-    CARET,  // ^
-    SLASH,  // /
-    LESS_THAN,  // <
-    GREATER_THAN,  // >
-    GTE,  // >=
-    LTE,  // <=
-    NOE,  // Diferente
-    NOT,  // Negación
-    IDENT,  // Identificador (==)
-    TRUE,  // Faltan
-    INT,  // int
-    FALSE,
-    IF,
-    ELSE,
-    RETURN,
-    FUNCTION,
-    LET
+    ASSIGN = "=",
+    STRING = "STRING",
+    COMMA = ",",
+    EOF = "EOF",
+    ILLEGAL = "ILLEGAL",
+    PLUS = "+",
+    MULTIPLICATION = "*",
+    SEMICOLON = ";",
+    PAREN_OPEN = "(",
+    PAREN_CLOSE = ")",
+    BRACKET_OPEN = "[",
+    BRACKET_CLOSE = "]",
+    CURLY_OPEN = "{",
+    CURLY_CLOSE =  "}",
+    MINUS = "-",
+    CARET = "^",
+    SLASH = "/",
+    LESS_THAN = "<",
+    GREATER_THAN = ">",
+    GTE = ">=",
+    LTE = "<=",
+    NOE = "!=",
+    NOT = "!",
+    EQ = "==",
+    IDENT = "IDENT", // declaración de la variable, o el nombre interno de la variable
+    TRUE = "TRUE",
+    INT = "INT",
+    FALSE = "FALSE",
+    IF = "IF",
+    ELSE = "ELSE",
+    RETURN = "RETURN",
+    FUNCTION = "FUNCTION",
+    LET = "LET"
 }
 
 export class Token {

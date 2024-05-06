@@ -53,9 +53,9 @@ class ASTIdentifier extends Expression {
 // Class for LetStatement
 class ASTLetStatement extends Statement {
     token: Token;
-    name: ASTIdentifier;
-    value: Expression;
-    constructor(token: Token, name: ASTIdentifier, value: Expression) {
+    name: ASTIdentifier | null;
+    value: Expression | null;
+    constructor(token: Token, name: ASTIdentifier | null, value: Expression | null) {
         super();
         this.token = token;
         this.name = name;
@@ -65,15 +65,15 @@ class ASTLetStatement extends Statement {
         return this.token.literal;
     }
     toString(): string {
-        return `${this.tokenLiteral()} ${this.name.toString()} = ${this.value.toString()};`;
+        return `${this.tokenLiteral()} ${this.name!.toString()} = ${this.value!.toString()};`;
     }
 }
 
 // Class for ReturnStatement
 class ASTReturnStatement extends Statement {
     token: Token;
-    returnValue: Expression;
-    constructor(token: Token, returnValue: Expression) {
+    returnValue: Expression | null;
+    constructor(token: Token, returnValue: Expression | null) {
         super();
         this.token = token;
         this.returnValue = returnValue;
@@ -82,7 +82,7 @@ class ASTReturnStatement extends Statement {
         return this.token.literal;
     }
     toString(): string {
-        return `${this.tokenLiteral()} ${this.returnValue.toString()};`;
+        return `${this.tokenLiteral()} ${this.returnValue!.toString()};`;
     }
 }
 
@@ -124,8 +124,8 @@ class ASTInteger extends Expression {
 class ASTPrefix extends Expression {
     token: Token;
     operator: string;
-    right: Expression;
-    constructor(token: Token, operator: string, right: Expression) {
+    right: Expression | null;
+    constructor(token: Token, operator: string, right: Expression | null) {
         super();
         this.token = token;
         this.operator = operator;
@@ -135,7 +135,7 @@ class ASTPrefix extends Expression {
         return this.token.literal;
     }
     toString(): string {
-        return `(${this.operator}${this.right.toString()})`;
+        return `(${this.operator}${this.right!.toString()})`;
     }
 }
 
@@ -144,8 +144,8 @@ class ASTInfix extends Expression {
     token: Token;
     left: Expression;
     operator: string;
-    right: Expression;
-    constructor(token: Token, left: Expression, operator: string, right: Expression) {
+    right: Expression | null;
+    constructor(token: Token, left: Expression, operator: string, right: Expression | null) {
         super();
         this.token = token;
         this.left = left;
@@ -156,7 +156,7 @@ class ASTInfix extends Expression {
         return this.token.literal;
     }
     toString(): string {
-        return `(${this.left.toString()} ${this.operator} ${this.right.toString()})`;
+        return `(${this.left.toString()} ${this.operator} ${this.right!.toString()})`;
     }
 }
 
@@ -197,10 +197,10 @@ class ASTBlock extends Statement {
 // Class for If
 class ASTIf extends Expression {
     token: Token;
-    condition: Expression;
-    consequence: ASTBlock;
+    condition: Expression | null;
+    consequence: ASTBlock | null;
     alternative: ASTBlock | null;
-    constructor(token: Token, condition: Expression, consequence: ASTBlock, alternative: ASTBlock | null) {
+    constructor(token: Token, condition: Expression | null, consequence: ASTBlock | null, alternative: ASTBlock | null) {
         super();
         this.token = token;
         this.condition = condition;
@@ -211,7 +211,7 @@ class ASTIf extends Expression {
         return this.token.literal;
     }
     toString(): string {
-        let str = `if${this.condition.toString()} ${this.consequence.toString()}`;
+        let str = `if${this.condition!.toString()} ${this.consequence!.toString()}`;
         if (this.alternative !== null) {
             str += `else ${this.alternative.toString()}`;
         }
