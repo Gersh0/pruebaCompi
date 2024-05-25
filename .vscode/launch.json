@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Tsx Vscode debugger",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "node",
+            "runtimeArgs": ["-r","ts-node/register"],
+            "args": ["${workspaceFolder}/app.ts"],
+            "cwd": "${workspaceRoot}",
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**", "node_modules/**"
+            ]
+        }
+    ]
+}

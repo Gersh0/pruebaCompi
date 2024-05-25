@@ -141,7 +141,10 @@ class Function extends Object_ {
     }
     // Returns a string representation of the object
     inspect(): string {
-        return `function(${this.parameters.join(', ')}) {\n${this.body.toString()}\n}`;
+        
+        let params: string = this.parameters.map(p => p.toString()).join(', ');
+        
+        return `function(${params}) {\n${this.body.toString()}\n}`;
     }
 }
 

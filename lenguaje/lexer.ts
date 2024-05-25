@@ -107,6 +107,9 @@ export class Lexer {
         } else if (/^$/.test(this._current_char)) {
             console.log(this._current_char);
             token = new Token(TokenType.EOF, this._current_char);
+        }else if (this.is_number(this._current_char)) {
+            const literal = this._read_number();
+            token = new Token(TokenType.INT, literal);
         } else if (/^\+$/.test(this._current_char)) {
             token = new Token(TokenType.PLUS, this._current_char);
         } else if (/^,$/.test(this._current_char)) {
@@ -138,19 +141,18 @@ export class Lexer {
             const literal = this._read_identifier();
             const tokenType = Token.lookup_token_type(literal);
             token = new Token(tokenType, literal);
-        } else if (this.is_number(this._current_char)) {
-            const literal = this._read_number();
-            token = new Token(TokenType.INT, literal);
         } else if (/^\*$/.test(this._current_char)) {
             token = new Token(TokenType.MULTIPLICATION, this._current_char);
-        } else if (/^[a-z]$/.test(this._current_char)) {
-            token = new Token(TokenType.IDENT, this._current_char);
-        }
-        
+        } 
         else {
             token = new Token(TokenType.ILLEGAL, this._current_char);
         }
         this._read_character()
+
+        // Debug temporal
+        //console.log(token);
+
+
         return token;
     }
 }

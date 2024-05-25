@@ -52,7 +52,7 @@ export class Token {
             'function': TokenType.FUNCTION,
             'let': TokenType.LET
         };
-        return keywords[literal.toLowerCase()] || TokenType.ILLEGAL;
+        return keywords[literal.toLowerCase()] || TokenType.IDENT;
     }
 
 

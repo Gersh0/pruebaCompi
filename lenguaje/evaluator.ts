@@ -61,6 +61,7 @@ export function evaluate(node: ASTNode, env: Environment): Object_ | null {
             case "ASTLetStatement":
                 const letValue = evaluate((node as ASTLetStatement).value!, env);
                 env.set((node as ASTLetStatement).name!.value, letValue as Object_);
+                return null;
     
             case "ASTFunction":
                 return new Function((node as ASTFunction).parameters, (node as ASTFunction).body, env);
@@ -171,24 +172,25 @@ function _evaluate_integer_infix_expression(operator: string, left: Object_, rig
     let left_value: number = +(left as Integer).value;
     let right_value: number = +(right as Integer).value;
 
-    if(operator === '+'){
-        return new Integer((left_value as number) + (right_value as number));
-    } else if(operator === '-'){
-        return new Integer((left_value as number) - (right_value as number));
-    } else if(operator === '*'){
-        return new Integer((left_value as number) * (right_value as number));
-    } else if(operator === '/'){
-        return new Integer(Math.floor((left_value as number) / (right_value as number)));
-    } else if(operator === '<'){
-        return _to_boolean_Object_((left_value as number) < (right_value as number));
-    } else if(operator === '>'){
-        return _to_boolean_Object_((left_value as number) > (right_value as number));
-    } else if(operator === '=='){
-        return _to_boolean_Object_(left_value === right_value);
-    } else if(operator === '!='){
-        return _to_boolean_Object_(left_value !== right_value);
-    } else {
-        return _new_error(_UNKNOWN_INFIX_OPERATOR, [ObjectType[left.type()], operator, ObjectType[right.type()]]);
+    switch(operator){
+        case '+':
+            return new Integer(left_value + right_value);
+        case '-':
+            return new Integer(left_value - right_value);
+        case '*':
+            return new Integer(left_value * right_value);
+        case '/':
+            return new Integer(Math.floor(left_value / right_value));
+        case '<':
+            return _to_boolean_Object_(left_value < right_value);
+        case '>':
+            return _to_boolean_Object_(left_value > right_value);
+        case '==':
+            return _to_boolean_Object_(left_value === right_value);
+        case '!=':
+            return _to_boolean_Object_(left_value !== right_value);
+        default:
+            return _new_error(_UNKNOWN_INFIX_OPERATOR, [ObjectType[left.type()], operator, ObjectType[right.type()]]);
     }
 }
 

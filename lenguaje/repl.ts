@@ -21,6 +21,7 @@ export function startRepl(): void {
     
     const promptForInput = (): void => {
         rl.question(">>> ", (source: string) => {
+            //let source = "let x = 1"
             if (source === "adio") {
                 rl.close();
             } else if (source === "borrar") {
@@ -32,7 +33,6 @@ export function startRepl(): void {
             } else {
                 scanned.push(source);
                 const lexer = new Lexer(" "+scanned);
-                let token = lexer.nextToken();
                 
                 let parser: Parser = new Parser(lexer);
                 let program = parser.parseProgram();
@@ -48,12 +48,6 @@ export function startRepl(): void {
                 if (evaluated !== null) {
                    console.log(evaluated.inspect());
                 }
-                /*
-                while (token.token_type !== TokenType.EOF) {
-                    console.log(token);
-                    token = lexer.nextToken();
-                }
-                */
                 
                 promptForInput(); // Recursively prompt for input again
             }

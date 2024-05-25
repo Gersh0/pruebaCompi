@@ -423,6 +423,8 @@ class Parser:
             TokenType.NEGATION: self._parse_prefix_expression,
             TokenType.TRUE: self._parse_boolean,
             TokenType.STRING: self._parse_string_literal,
+            
+
         }
     
     def _parse_string_literal(self) -> Expression:

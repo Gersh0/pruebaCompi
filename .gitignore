@@ -4,7 +4,9 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 
-# Node modules
+# Node modules and dependencies
 node_modules/
 npm-debug.log
+package-lock.json
+
 

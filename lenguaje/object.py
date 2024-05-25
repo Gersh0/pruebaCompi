@@ -131,7 +131,6 @@ class Function(Object):
 
     def inspect(self) -> str:
         params: str = ', '.join([str(param) for param in self.parameters])
-
         return 'procedimiento({}) {{\n{}\n}}'.format(params, str(self.body))
     
 class String(Object):

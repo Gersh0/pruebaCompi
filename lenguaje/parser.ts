@@ -250,6 +250,10 @@ export class Parser {
         this.advanceTokens();
         ifExpression.condition = this.parseExpression(Precedence.LOWEST)!;
 
+        if (!this.expectedToken(TokenType.PAREN_CLOSE)) {
+            return null;
+        }
+
         if (!this.expectedToken(TokenType.CURLY_OPEN)) {
             return null;
         }
@@ -257,7 +261,6 @@ export class Parser {
         ifExpression.consequence = this.parseBlock();
 
         if (this.peekToken!.token_type === TokenType.ELSE) {
-            this.advanceTokens();
             this.advanceTokens();
 
             if (!this.expectedToken(TokenType.CURLY_OPEN)) {
@@ -289,11 +292,14 @@ export class Parser {
     }
 
     private parseLetStatement(): ASTLetStatement | null {
-        let letStatement = new ASTLetStatement(this.currentToken!, new ASTIdentifier(this.currentToken!, this.currentToken!.literal), null);
+        // en el 2do, por si algo: new ASTIdentifier(this.currentToken!, this.currentToken!.literal)
+        let letStatement = new ASTLetStatement(this.currentToken!, null, null);
 
         if (!this.expectedToken(TokenType.IDENT)) {
             return null;
         }
+
+        letStatement.name = this.parseIdentifier();
 
         if (!this.expectedToken(TokenType.ASSIGN)) {
             return null;
@@ -365,16 +371,16 @@ export class Parser {
 
     private registerPrefixFns(): Partial<PrefixParseFns> {
         return {
-            [TokenType.FALSE]: this.parseIdentifier.bind(this),
-            [TokenType.FUNCTION]: this.parseInteger.bind(this),
-            [TokenType.IDENT]: this.parseBoolean.bind(this),
-            [TokenType.IF]: this.parseBoolean.bind(this),
-            [TokenType.INT]: this.parseStringLiteral.bind(this),
-            [TokenType.PAREN_OPEN]: this.parsePrefixExpression.bind(this),
+            [TokenType.FALSE]: this.parseBoolean.bind(this),
+            [TokenType.FUNCTION]: this.parseFunction.bind(this),
+            [TokenType.IDENT]: this.parseIdentifier.bind(this),
+            [TokenType.IF]: this.parseIf.bind(this),
+            [TokenType.INT]: this.parseInteger.bind(this),
+            [TokenType.PAREN_OPEN]: this.parseGroupedExpression.bind(this),
             [TokenType.MINUS]: this.parsePrefixExpression.bind(this),
-            [TokenType.NOT]: this.parseGroupedExpression.bind(this),
-            [TokenType.TRUE]: this.parseIf.bind(this),
-            [TokenType.STRING]: this.parseFunction.bind(this)
+            [TokenType.NOT]: this.parsePrefixExpression.bind(this),
+            [TokenType.STRING]: this.parseStringLiteral.bind(this),
+            [TokenType.TRUE]: this.parseBoolean.bind(this)
         };
     }
 

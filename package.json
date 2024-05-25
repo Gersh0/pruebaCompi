@@ -1,6 +1,24 @@
 {
   "devDependencies": {
     "@types/node": "^20.12.7",
-    "typescript": "^5.3.3"
-  }
+    "ts-node": "^10.9.2",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5"
+  },
+  "name": "pruebacompi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "esbuild": "^0.20.2",
+    "get-tsconfig": "^4.7.5",
+    "resolve-pkg-maps": "^1.0.0",
+    "undici-types": "^5.26.5"
+  },
+  "scripts": {
+    "test": "jest --runInBand",
+    "start": "ts-node app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
