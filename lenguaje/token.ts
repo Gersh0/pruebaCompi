@@ -35,11 +35,27 @@ export enum TokenType {
 }
 
 export class Token {
+export class Token {
     token_type: TokenType;
+    literal: string;
     literal: string;
 
     constructor(token_type: TokenType, literal: string) {
+    constructor(token_type: TokenType, literal: string) {
         this.token_type = token_type;
+        this.literal = literal;
+    }
+    public static lookup_token_type(literal: string): TokenType {
+        const keywords: Record<string, TokenType> = {
+            'false': TokenType.FALSE,
+            'true': TokenType.TRUE,
+            'if': TokenType.IF,
+            'else': TokenType.ELSE,
+            'return': TokenType.RETURN,
+            'function': TokenType.FUNCTION,
+            'let': TokenType.LET
+        };
+        return keywords[literal.toLowerCase()] || TokenType.ILLEGAL;
         this.literal = literal;
     }
     public static lookup_token_type(literal: string): TokenType {
