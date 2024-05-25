@@ -37,7 +37,7 @@ const PRECEDENCES: Partial<Record<TokenType, Precedence>> = {
     [TokenType.PAREN_OPEN]: Precedence.CALL,
 };
 
-class Parser {
+export class Parser {
     private lexer: Lexer;
     private currentToken: Token | null;
     private peekToken: Token | null;
@@ -60,11 +60,11 @@ class Parser {
         this.advanceTokens();
     }
 
-    private getErrors(): string[] {
+    public getErrors(): string[] {
         return this.errors;
     }
 
-    private parse_program(): ASTProgram {
+    parseProgram(): ASTProgram {
         let program = new ASTProgram([]);
         
         while ((this.currentToken as Token).token_type !== TokenType.EOF) {

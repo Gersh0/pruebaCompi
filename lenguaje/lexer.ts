@@ -141,7 +141,13 @@ export class Lexer {
         } else if (this.is_number(this._current_char)) {
             const literal = this._read_number();
             token = new Token(TokenType.INT, literal);
-        } else {
+        } else if (/^\*$/.test(this._current_char)) {
+            token = new Token(TokenType.MULTIPLICATION, this._current_char);
+        } else if (/^[a-z]$/.test(this._current_char)) {
+            token = new Token(TokenType.IDENT, this._current_char);
+        }
+        
+        else {
             token = new Token(TokenType.ILLEGAL, this._current_char);
         }
         this._read_character()

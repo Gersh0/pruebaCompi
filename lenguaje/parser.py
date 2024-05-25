@@ -90,7 +90,7 @@ class Parser:
             self._advance_tokens()
 
         return program
-
+    
     def _advance_tokens(self) -> None:
         self._current_token = self._peek_token
         self._peek_token = self._lexer.next_token()
